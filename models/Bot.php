@@ -21,6 +21,23 @@
                 'timeout'  => 2.0,
             ]); 
         }
+        public function findPost($query) {
+            try {
+                $res = $this->client->request('GET', "wall.search?access_token=$this->accessToken&query=$query&owner_id=$this->userId");
+                $body = json_decode($res->getBody());
+                $itemIds = array();
+                if(empty($body)) {
+                    return FALSE;
+                }
+                for($i = 1; $i < count($body->response); $i++) {
+                    array_push($itemIds, $body->response[$i]->id);
+                }
+                return $itemIds;
+
+            } catch(ErrorExcption $e) {
+                Yii:error($e);
+            }
+        }
        
     }
 ?>
