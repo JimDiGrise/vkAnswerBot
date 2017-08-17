@@ -38,6 +38,16 @@
                 Yii:error($e);
             }
         }
+        public function createComment($text, $postId) {
+            try {
+
+                $res = $this->client->request('GET', "wall.createComment?access_token=$this->accessToken&message=$text&owner_id=$this->userId&post_id=$postId");
+                $body = json_decode($res->getBody());
+                echo "Create comment with text: $text, for post id: $postId <br>";
+            }catch(\ErrorException $e) {
+                Yii:error($e);
+            }
+        }    
        
     }
 ?>
